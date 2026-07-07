@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Timelog extends Model
+class TimeLog extends Model
 {
     
     protected $fillable = [
