@@ -1,62 +1,165 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ config('app.name', 'Time Log System') }}</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="min-h-screen bg-slate-50 text-slate-800">
-        <div class="flex min-h-screen items-center justify-center px-4 py-10">
-            <div class="w-full max-w-5xl rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div class="grid gap-8 p-8 md:grid-cols-[1.2fr_0.8fr] md:p-12">
-                    <div>
-                        <p class="mb-3 text-sm font-semibold uppercase tracking-wide text-indigo-600">Time Log System</p>
-                        <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Track your day in a simple, focused way.</h1>
-                        <p class="mt-4 text-lg text-slate-600">
-                            Log work entries, keep daily hours under control, and submit leave requests from one place.
-                        </p>
 
-                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                            @if (Route::has('login'))
-                                @auth
-                                    <a href="{{ url('/time-logs') }}" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
-                                        Go to dashboard
-                                    </a>
-                                @else
-                                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700">
-                                        Log in
-                                    </a>
-                                    @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
-                                            Register
-                                        </a>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ config('app.name', 'Time Log System') }}</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10">
+
+                <div class="card shadow-lg border-0">
+
+                    <div class="card-body p-5">
+
+                        <div class="row align-items-center">
+
+                            <!-- Left Section -->
+
+                            <div class="col-lg-7">
+
+                                <span class="badge bg-primary mb-3">
+                                    Time Log System
+                                </span>
+
+                                <h1 class="display-5 fw-bold">
+                                    Track your work with ease.
+                                </h1>
+
+                                <p class="lead text-muted mt-3">
+                                    Log daily work, monitor your working hours,
+                                    and manage leave requests from one place.
+                                </p>
+
+                                <div class="mt-4">
+
+                                    @if (Route::has('login'))
+
+                                        @auth
+
+                                            <a href="{{ route('time-logs.index') }}"
+                                               class="btn btn-primary btn-lg me-2">
+                                                Go to Time Logs
+                                            </a>
+
+                                        @else
+
+                                            <a href="{{ route('login') }}"
+                                               class="btn btn-primary btn-lg me-2">
+                                                Login
+                                            </a>
+
+                                            @if (Route::has('register'))
+
+                                                <a href="{{ route('register') }}"
+                                                   class="btn btn-outline-primary btn-lg">
+                                                    Register
+                                                </a>
+
+                                            @endif
+
+                                        @endauth
+
                                     @endif
-                                @endauth
-                            @endif
+
+                                </div>
+
+                                <div class="card mt-5">
+
+                                    <div class="card-header">
+                                        Test Account
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <p class="mb-2">
+                                            <strong>Email:</strong>
+                                            test@example.com
+                                        </p>
+
+                                        <p class="mb-0">
+                                            <strong>Password:</strong>
+                                            password
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Right Section -->
+
+                            <div class="col-lg-5 mt-5 mt-lg-0">
+
+                                <div class="card bg-dark text-white">
+
+                                    <div class="card-header">
+                                        Features
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <ul class="list-group list-group-flush">
+
+                                            <li class="list-group-item bg-dark text-white">
+                                                log multiple tasks per day
+                                            </li>
+
+                                            <li class="list-group-item bg-dark text-white">
+                                                Maximum 10 working hours/day
+                                            </li>
+
+                                            <li class="list-group-item bg-dark text-white">
+                                                Apply leave with validation
+                                            </li>
+
+                                            <li class="list-group-item bg-dark text-white">
+                                                User-specific work reports
+                                            </li>
+
+                                            <li class="list-group-item bg-dark text-white">
+                                                Daily work summary
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
-                        <div class="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4">
-                            <h2 class="text-sm font-semibold text-slate-900">Test account</h2>
-                            <p class="mt-2 text-sm text-slate-600">Use these details to explore the app quickly.</p>
-                            <ul class="mt-3 space-y-1 text-sm text-slate-700">
-                                <li><span class="font-medium">Email:</span> test@example.com</li>
-                                <li><span class="font-medium">Password:</span> password</li>
-                            </ul>
-                        </div>
                     </div>
 
-                    <div class="rounded-2xl bg-slate-900 p-6 text-slate-100">
-                        <h2 class="text-lg font-semibold">What you can do</h2>
-                        <ul class="mt-4 space-y-3 text-sm text-slate-300">
-                            <li class="flex gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-indigo-400"></span>Log multiple tasks for a day</li>
-                            <li class="flex gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-indigo-400"></span>Track up to 10 working hours per day</li>
-                            <li class="flex gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-indigo-400"></span>Submit leave requests with clear validation</li>
-                            <li class="flex gap-2"><span class="mt-1 h-2 w-2 rounded-full bg-indigo-400"></span>Review your entries from the dashboard</li>
-                        </ul>
-                    </div>
                 </div>
+
+                <div class="text-center mt-4 text-muted">
+                    © {{ date('Y') }} Time Log System
+                </div>
+
             </div>
+
         </div>
-    </body>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
 </html>
