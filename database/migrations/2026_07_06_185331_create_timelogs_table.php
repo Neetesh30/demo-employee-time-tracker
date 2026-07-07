@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('timelogs', function (Blueprint $table) {
             $table->id();
+            $table->date('work_date');
+
+            $table->foreignId('project_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->text('task_description');
+
+            $table->unsignedTinyInteger('hours');
+            $table->unsignedTinyInteger('minutes');
+
+            // Used to easily calculate the daily total
+            $table->unsignedSmallInteger('total_minutes');
+
             $table->timestamps();
         });
     }
