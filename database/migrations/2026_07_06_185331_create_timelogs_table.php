@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('timelogs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->date('work_date');
 
             $table->foreignId('project_id')
@@ -23,8 +27,6 @@ return new class extends Migration
 
             $table->unsignedTinyInteger('hours');
             $table->unsignedTinyInteger('minutes');
-
-            // Used to easily calculate the daily total
             $table->unsignedSmallInteger('total_minutes');
 
             $table->timestamps();
