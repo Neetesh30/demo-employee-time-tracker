@@ -8,6 +8,12 @@ use App\Models\Leave;
 
 class TimeLogController extends Controller
 {
+    
+public function index()
+    {
+        return view('timelog.index');
+    }
+
     public function store(Request $request)
     {
         $date = $request->work_date;
