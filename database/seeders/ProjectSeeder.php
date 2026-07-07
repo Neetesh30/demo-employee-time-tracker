@@ -14,6 +14,17 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        d
+         $projects = [
+            'Website Development',
+            'Mobile App',
+            'CRM System',
+            'Bug Fixing',
+            'Research & Development',
+            'Internal Meeting',
+        ];
+
+        foreach ($projects as $projectName) {
+            Project::create(['name' => $projectName]);
+        }
     }
 }
