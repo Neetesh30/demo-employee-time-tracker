@@ -19,9 +19,41 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('timelogs', TimeLogController::class);
 
-    Route::resource('leave', LeaveController::class);
+    /*
+    |--------------------------------------------------------------------------
+    | Time Logs
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/time-logs', [TimeLogController::class, 'index'])
+        ->name('time-logs.index');
+
+    Route::post('/time-logs', [TimeLogController::class, 'store'])
+        ->name('time-logs.store');
+
+    Route::delete('/time-logs/{timeLog}', [TimeLogController::class, 'destroy'])
+        ->name('time-logs.destroy');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Leave
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/leaves', [LeaveController::class, 'index'])
+        ->name('leaves.index');
+
+    Route::post('/leaves', [LeaveController::class, 'store'])
+        ->name('leaves.store');
+
+    Route::delete('/leaves/{leave}', [LeaveController::class, 'destroy'])
+        ->name('leaves.destroy');
+
+
+
+
 });
 
 require __DIR__.'/auth.php';

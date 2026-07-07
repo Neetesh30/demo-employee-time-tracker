@@ -12,7 +12,7 @@
 
     <div class="card-body">
 
-        <form action="{{ route('timelogs.store') }}" method="POST">
+        <form action="{{ route('time-logs.store') }}" method="POST">
 
             @csrf
 
@@ -29,6 +29,12 @@
                         max="{{ now()->toDateString() }}"
                         value="{{ old('work_date', $date) }}"
                         required>
+
+                        @error('work_date')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
 
                 </div>
 
@@ -57,11 +63,17 @@
 
                     </select>
 
+                    @error('project_id')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
                 </div>
 
                 <div class="col-md-3 mb-3">
 
-                    <label>Time (HH:MM)</label>
+                    <label>Duration  (HH:MM)</label>
 
                     <input
                         type="text"
@@ -71,7 +83,17 @@
                         value="{{ old('time') }}"
                         required>
 
+                        <small class="text-muted">
+                            Enter the time spent on this task (e.g. 02:30 = 2 hours 30 minutes).
+                        </small>
+
                 </div>
+
+                @error('time')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
 
             </div>
 
@@ -85,9 +107,15 @@
                     class="form-control"
                     required>{{ old('task_description') }}</textarea>
 
+                    @error('task_description')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
             </div>
 
-            <button class="btn btn-primary">
+            <button class="btn btn-primary w-100">
                 Add Task
             </button>
 
@@ -102,23 +130,44 @@
 <h5>Time Logs</h5>
 
 @php
-    $hours = intdiv($totalMinutes, 60);
-    $minutes = $totalMinutes % 60;
+$totalHours = intdiv($totalMinutes, 60);
+$totalMins = $totalMinutes % 60;
+
+$remainingMinutes = max(0, 600 - $totalMinutes);
+
+$remainingHours = intdiv($remainingMinutes, 60);
+$remainingMins = $remainingMinutes % 60;
 @endphp
 
-<div class="alert alert-info">
+<div class="row mb-4">
 
-    Total Logged Time:
+    <div class="col-md-6">
 
-    <strong>
+        <div class="alert alert-success">
 
-        {{ sprintf('%02d:%02d', $hours, $minutes) }}
+            <strong>Total Logged:</strong>
 
-    </strong>
+            {{ sprintf('%02d:%02d', $totalHours, $totalMins) }}
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="alert alert-warning">
+
+            <strong>Remaining:</strong>
+
+            {{ sprintf('%02d:%02d', $remainingHours, $remainingMins) }}
+
+        </div>
+
+    </div>
 
 </div>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-striped table-hover align-middle">
 
     <thead>
 
@@ -129,6 +178,8 @@
             <th>Task</th>
 
             <th>Time</th>
+
+            <th>Action</th>
 
         </tr>
 
@@ -146,6 +197,26 @@
 
             <td>
                 {{ sprintf('%02d:%02d', $log->hours, $log->minutes) }}
+            </td>
+
+            <td>
+
+            <form action="{{ route('time-logs.destroy',$log) }}"
+                method="POST">
+
+                @csrf
+                @method('DELETE')
+
+                <button
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('Delete this time log?')">
+
+                    Delete
+
+                </button>
+
+            </form>
+
             </td>
 
         </tr>

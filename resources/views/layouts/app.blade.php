@@ -14,19 +14,40 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand fw-bold" href="{{ route('time-logs.index') }}">
             Time Log System
         </a>
 
-        <div class="ms-auto d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <span class="text-white me-3">
-                {{ auth()->user()->name }}
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link  {{ request()->routeIs('time-logs.*') ? 'active' : '' }}"
+                       href="{{ route('time-logs.index') }}">
+                        Time Logs
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('leaves.*') ? 'active' : '' }}"
+                       href="{{ route('leaves.index') }}">
+                        Apply Leave
+                    </a>
+                </li>
+
+            </ul>
+
+            <span class="navbar-text text-white me-3">
+                Welcome, {{ auth()->user()->name }}
             </span>
 
-            <form method="POST" action="{{ route('logout') }}">
+            <form action="{{ route('logout') }}" method="POST">
                 @csrf
-
                 <button class="btn btn-light btn-sm">
                     Logout
                 </button>
