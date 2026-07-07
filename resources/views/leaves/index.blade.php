@@ -65,7 +65,9 @@
                 <textarea
                     name="reason"
                     rows="4"
+                    maxlength="500"
                     class="form-control">{{ old('reason') }}</textarea>
+                <small class="text-muted">Maximum 500 characters</small>
 
             </div>
 

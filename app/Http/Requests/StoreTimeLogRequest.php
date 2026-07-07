@@ -22,29 +22,26 @@ class StoreTimeLogRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'work_date' => [
                 'required',
                 'date',
                 'before_or_equal:today',
             ],
-
-            'project_id' => [
-                'required',
-                'exists:projects,id',
-            ],
-
-            'task_description' => [
-                'required',
-                'string',
-                'max:500',
-            ],
-
-            'time' => [
-                'required',
-                'regex:/^(0?[0-9]|10):([0-5][0-9])$/',
-            ],
         ];
+
+        if ($this->filled('tasks') && is_array($this->input('tasks'))) {
+            $rules['tasks'] = ['required', 'array', 'min:1'];
+            $rules['tasks.*.project_id'] = ['required', 'exists:projects,id'];
+            $rules['tasks.*.task_description'] = ['required', 'string', 'max:500'];
+            $rules['tasks.*.time'] = ['required', 'regex:/^([0-9]|[0-9]{2}):([0-5][0-9])$/'];
+        } else {
+            $rules['project_id'] = ['required', 'exists:projects,id'];
+            $rules['task_description'] = ['required', 'string', 'max:500'];
+            $rules['time'] = ['required', 'regex:/^([0-9]|[0-9]{2}):([0-5][0-9])$/'];
+        }
+
+        return $rules;
     }
 
     public function messages(): array
